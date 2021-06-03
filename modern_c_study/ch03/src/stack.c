@@ -12,14 +12,14 @@
 */
 
 #include "stack.h"
-int g_iStackBuff[16]; 	/**< 스택 메모리 */
-int g_iStackCount;		/**< 스택 메모리의 저장된 데이터 수 */
+static int g_iStackBuff[16]; 	/**< 스택 메모리 */
+static int g_iStackCount;		/**< 스택 메모리의 저장된 데이터 수 */
 
 /**
 * @brief 스택 메모리가  가득 차 있는지 확인 한다.
 * @return 스택메모리가 FULL이면 True, 아니면 False
 */
-bool isStackFull()
+static bool isStackFull()
 {
 	return g_iStackCount == sizeof(g_iStackBuff)/sizeof(int);
 }
@@ -28,7 +28,7 @@ bool isStackFull()
 * @brief 스택 메모리가  비어 있는지 확인 한다.
 * @return 스택메모리가 비어있으면 True, 아니면 False
 */
-bool isStackEmpty()
+static bool isStackEmpty()
 {
 	return g_iStackCount == 0;
 }
