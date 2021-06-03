@@ -12,41 +12,39 @@
 */
 
 #include "stack.h"
-static int g_iStackBuff[16]; 	/**< 스택 메모리 */
-static int g_iStackCount;		/**< 스택 메모리의 저장된 데이터 수 */
 
 /**
 * @brief 스택 메모리가  가득 차 있는지 확인 한다.
 * @return 스택메모리가 FULL이면 True, 아니면 False
 */
-static bool isStackFull()
+static bool isStackFull(STACK* pstStack)
 {
-	return g_iStackCount == sizeof(g_iStackBuff)/sizeof(int);
+	return pstStack->iStackCount == pstStack->iStackSize;
 }
 
 /**
 * @brief 스택 메모리가  비어 있는지 확인 한다.
 * @return 스택메모리가 비어있으면 True, 아니면 False
 */
-static bool isStackEmpty()
+static bool isStackEmpty(STACK* pstStack)
 {
-	return g_iStackCount == 0;
+	return pstStack->iStackCount == 0;
 }
 
 
-bool stackPush(int i_iValue)
+bool stackPush(STACK* pstStack, int i_iValue)
 {
-	if(isStackFull())
+	if(isStackFull(pstStack))
 			return false;
-	g_iStackBuff[g_iStackCount++] = i_iValue;
+	pstStack->piStackBuff[pstStack->iStackCount++] = i_iValue;
 	return true;
 }
 
-bool stackPop(int *o_iValue)
+bool stackPop(STACK* pstStack, int *o_iValue)
 {
-	if(isStackEmpty())
+	if(isStackEmpty(pstStack))
 		return false;
-	*o_iValue = g_iStackBuff[--g_iStackCount];
+	*o_iValue = pstStack->piStackBuff[--pstStack->iStackCount];
 	return true;
 }
 

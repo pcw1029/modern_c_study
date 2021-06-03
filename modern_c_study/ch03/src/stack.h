@@ -14,19 +14,29 @@
 extern "C" {
 #endif
 
+#define NEW_STACK(iStackMem) { 0, sizeof(iStackMem)/sizeof(int), (iStackMem) }
+
+typedef struct {
+	int iStackCount;	/**< 스택 메모리의 저장된 데이터 수 */
+	int iStackSize;	/**< 스택 메모리의 크기 */
+	int *piStackBuff;	/**< 스택 메모리 */
+}STACK;
+
 /**
 * @brief 스택 메모리에 데이터를 저장한다.
+* @param pstStack 스택 메모리 정보
 * @param i_iValue 스택에 저장할 데이터
 * @return 저장 성공시 True, 아니면 False
 */
-bool stackPush(int i_iValue);
+bool stackPush(STACK* pstStack, int i_iValue);
 
 /**
 * @brief 스택 메모리에서 데이터를 가져온다.
+* @param pstStack 스택 메모리 정보
 * @param o_iValue 스택 메모리에서 가져온 데이터를 저장할 변수
 * @return 스택 메모리에서 데이터 가져오기 성공시 True, 아니면 False
 */
-bool stackPop(int *o_iValue);
+bool stackPop(STACK* pstStack, int *o_iValue);
 
 #ifdef __cplusplus
 }

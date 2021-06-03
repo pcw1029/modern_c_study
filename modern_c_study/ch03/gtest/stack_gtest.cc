@@ -9,28 +9,34 @@
 
 TEST(StackTest, popReturnFalse)
 {
+	int iStackMem[16];
+	STACK stStack = NEW_STACK(iStackMem);
 	int iData;
-	EXPECT_EQ(false, stackPop(&iData));
+	EXPECT_EQ(false, stackPop(&stStack, &iData));
 }
 
 TEST(StackTest, pushReturnFalse)
 {
+	int iStackMem[16];
+	STACK stStack = NEW_STACK(iStackMem);
 	int i;
 	for(i=0; i<16; i++){
-		stackPush(i);
+		stackPush(&stStack, i);
 	}
-	EXPECT_EQ(false, stackPush(i));
+	EXPECT_EQ(false, stackPush(&stStack, i));
 }
 
 TEST(StackTest, pushNpopReturnTrue)
 {
-	int iData;
+	int iStackMem[16];
+	STACK stStack = NEW_STACK(iStackMem);
 	int i;
+	int iData;
 	for(i=0; i<16; i++){
-		stackPush(i);
+		stackPush(&stStack, i);
 	}
 	for(i=15; i>=0; i--){
-		stackPop(&iData);
+		stackPop(&stStack, &iData);
 		EXPECT_EQ(true, i==iData);
 	}
 }
