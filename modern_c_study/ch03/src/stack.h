@@ -16,10 +16,21 @@ extern "C" {
 
 #define NEW_STACK(iStackMem) { 0, sizeof(iStackMem)/sizeof(int), (iStackMem) }
 
+#define NEW_STACK_WITH_RANGE(iStackMem, pstRange) { 0, sizeof(iStackMem)/sizeof(int), (iStackMem), pstRange}
+
+typedef struct{
+	const int iMin;	/**< 스택에 저장할수 있는 값의 최소값 */
+	const int iMax;	/**< 스택에 저장할수 있는 값의 최대값 */
+}RANGE;
+
+/**
+* @brief 스택 자료구조에 사용되는 구조체
+*/
 typedef struct {
-	int iStackCount;	/**< 스택 메모리의 저장된 데이터 수 */
-	const int iStackSize;	/**< 스택 메모리의 크기 */
-	int* const piStackBuff;	/**< 스택 메모리 */
+	int iStackCount;					/**< 스택 메모리의 저장된 데이터 수 */
+	const int iStackSize;			/**< 스택 메모리의 크기 */
+	int* const piStackBuff;			/**< 스택 메모리 */
+	const RANGE* const pstRange;	/**< 스택에 저장할 값의 범위값을 가진 구조체 */
 }STACK;
 
 /**

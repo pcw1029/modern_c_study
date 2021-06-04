@@ -31,10 +31,16 @@ static bool isStackEmpty(STACK* pstStack)
 	return pstStack->iStackCount == 0;
 }
 
+static bool checkOutOfRange(STACK* pstStack, int i_iValue)
+{
+	if(pstStack->pstRange->iMax < i_iValue || pstStack->pstRange->iMin > i_iValue)
+		return true;
+	return false;
+}
 
 bool stackPush(STACK* pstStack, int i_iValue)
 {
-	if(isStackFull(pstStack))
+	if(isStackFull(pstStack) || checkOutOfRange(pstStack, i_iValue))
 			return false;
 	pstStack->piStackBuff[pstStack->iStackCount++] = i_iValue;
 	return true;
