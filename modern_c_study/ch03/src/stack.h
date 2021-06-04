@@ -18,8 +18,8 @@ extern "C" {
 
 typedef struct {
 	int iStackCount;	/**< 스택 메모리의 저장된 데이터 수 */
-	int iStackSize;	/**< 스택 메모리의 크기 */
-	int *piStackBuff;	/**< 스택 메모리 */
+	const int iStackSize;	/**< 스택 메모리의 크기 */
+	int* const piStackBuff;	/**< 스택 메모리 */
 }STACK;
 
 /**
