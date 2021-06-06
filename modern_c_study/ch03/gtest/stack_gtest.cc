@@ -11,7 +11,8 @@ TEST(StackTest, popReturnFalse)
 {
 	int iStackMem[16];
 	RANGE stRange = {0, 9};
-	STACK stStack = NEW_STACK_WITH_RANGE(iStackMem, &stRange);
+	VALIDATOR stRangeValidator = NEW_VALIDATOR_RANGE(&stRange);
+	STACK stStack = NEW_STACK_WITH_RANGE(iStackMem, &stRangeValidator);
 	int iData;
 	EXPECT_EQ(false, stackPop(&stStack, &iData));
 }
@@ -20,7 +21,8 @@ TEST(StackTest, pushReturnFalse)
 {
 	int iStackMem[16];
 	RANGE stRange = {0, 9};
-	STACK stStack = NEW_STACK_WITH_RANGE(iStackMem, &stRange);
+	VALIDATOR stRangeValidator = NEW_VALIDATOR_RANGE(&stRange);
+	STACK stStack = NEW_STACK_WITH_RANGE(iStackMem, &stRangeValidator);
 	int i;
 	for(i=0; i<16; i++){
 		stackPush(&stStack, 1);
@@ -32,7 +34,8 @@ TEST(StackTest, pushNpopReturnTrue)
 {
 	int iStackMem[16];
 	RANGE stRange = {0, 9};
-	STACK stStack = NEW_STACK_WITH_RANGE(iStackMem, &stRange);
+	VALIDATOR stRangeValidator = NEW_VALIDATOR_RANGE(&stRange);
+	STACK stStack = NEW_STACK_WITH_RANGE(iStackMem, &stRangeValidator);
 	int i;
 	int iData;
 	for(i=0; i<16; i++){
@@ -48,7 +51,8 @@ TEST(StackTest, pushOutOfRangeValueReturnFalse)
 {
 	int iStackMem[16];
 	RANGE stRange = {0, 9};
-	STACK stStack = NEW_STACK_WITH_RANGE(iStackMem, &stRange);
+	VALIDATOR stRangeValidator = NEW_VALIDATOR_RANGE(&stRange);
+	STACK stStack = NEW_STACK_WITH_RANGE(iStackMem, &stRangeValidator);
 	EXPECT_EQ(false, stackPush(&stStack, -1));
 	EXPECT_EQ(false, stackPush(&stStack, 10));
 }
@@ -57,9 +61,20 @@ TEST(StackTest, pushOutOfRangeValueReturnTrue)
 {
 	int iStackMem[16];
 	RANGE stRange = {0, 9};
-	STACK stStack = NEW_STACK_WITH_RANGE(iStackMem, &stRange);
+	VALIDATOR stRangeValidator = NEW_VALIDATOR_RANGE(&stRange);
+	STACK stStack = NEW_STACK_WITH_RANGE(iStackMem, &stRangeValidator);
 	EXPECT_EQ(true, stackPush(&stStack, 0));
 	EXPECT_EQ(true, stackPush(&stStack, 9));
+}
+
+TEST(StackTest, pushCheckPrevValueOfRangeValueReturnFalse)
+{
+	int iStackMem[16];
+	PREV_VALUE stPrevValue ={0};
+	VALIDATOR stPrevValueValidator = NEW_VALIDATOR_PREV_VALUE(&stPrevValue);
+	STACK stStack = NEW_STACK_WITH_RANGE(iStackMem, &stPrevValueValidator);
+	EXPECT_EQ(true, stackPush(&stStack, 5));
+	EXPECT_EQ(false, stackPush(&stStack, 4));
 }
 
 

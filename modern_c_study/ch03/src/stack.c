@@ -31,16 +31,33 @@ static bool isStackEmpty(STACK* pstStack)
 	return pstStack->iStackCount == 0;
 }
 
-static bool checkOutOfRange(STACK* pstStack, int i_iValue)
+bool checkOutOfRange(VALIDATOR* pstValidator, int i_iValue)
 {
-	if(pstStack->pstRange->iMax < i_iValue || pstStack->pstRange->iMin > i_iValue)
+	RANGE *pstRange = (RANGE *)pstValidator->pvData;
+	if(pstRange->iMax < i_iValue || pstRange->iMin > i_iValue)
+		return false;
+	return true;
+}
+
+bool checkPrevValue(VALIDATOR* pstValidator, int i_iValue)
+{
+	PREV_VALUE *pstPrevValue = (PREV_VALUE *)pstValidator->pvData;
+	if(pstPrevValue->iPrevValue >= i_iValue)
+		return false;
+	pstPrevValue->iPrevValue = i_iValue;
+	return true;
+}
+
+static bool validate(VALIDATOR* pstValidator, int i_iValue)
+{
+	if(! pstValidator)
 		return true;
-	return false;
+	return pstValidator->validate(pstValidator, i_iValue);
 }
 
 bool stackPush(STACK* pstStack, int i_iValue)
 {
-	if(isStackFull(pstStack) || checkOutOfRange(pstStack, i_iValue))
+	if(isStackFull(pstStack) || !validate(pstStack->pstValidator, i_iValue))
 			return false;
 	pstStack->piStackBuff[pstStack->iStackCount++] = i_iValue;
 	return true;
